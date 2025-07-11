@@ -1,0 +1,14 @@
+{
+  "info.dpoints.get": "[dPoints] %s currently has %s points.",
+  "info.dpoints.update.success": "[dPoints] Success! %s now has %s points.",
+  "info.dpoints.add.failure": "[dPoints] Failure! Amount to add must be a positive number.",
+  "info.dpoints.remove.failure": "[dPoints] Failure! The player does not have enough points to remove that amount.",
+  "info.dpoints.set.failure": "[dPoints] Failure! Points cannot be set to a negative value.",
+  "ftbquests.task.dpoints.points": "Points Task",
+  "ftbquests.reward.dpoints.points": "Points Reward",
+  "dpoints.balance": "Your Points",
+  "dpoints.points": " Points",
+  "dpoints.not_available": "N/A",
+  "ftbquests.task.dpoints.points.value": "Points Required",
+  "ftbquests.reward.dpoints.points.value": "Points Rewarded"
+}
