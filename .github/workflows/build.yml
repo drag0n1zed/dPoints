@@ -22,5 +22,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-libs
-          path: build/libs/drandomspawn-*.jar
+          path: build/libs/*.jar
           if-no-files-found: error
