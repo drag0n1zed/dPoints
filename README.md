@@ -4,8 +4,7 @@ dPoints is a Minecraft Forge mod for tracking and managing player point balances
 
 ## Features
 
-- Server-authoritative point storage and synchronization
-- Client-side cache for displaying point balances
+- Support for multiple currencies
 - Commands: `/dpoints add`, `/dpoints remove`, `/dpoints set`, `/dpoints get`
 - API for modders: `PointsApi`
 - FTBQuests integration: `PointTask` and `PointReward`
@@ -18,8 +17,8 @@ dPoints is a Minecraft Forge mod for tracking and managing player point balances
 
 ## Configuration
 
-No additional configuration required. Localization files available in `src/main/resources/assets/dpoints/lang`.
+No additional configuration required.
 
 ## License
 
-This project is licensed under the GNU Lesser General Public License v3.0. See `LICENSE` for details.
+This project is licensed under the GNU Lesser General Public License v3.0.

@@ -3,7 +3,6 @@ package io.github.drag0n1zed.dpoints.internal.compat.ftbquests;
 import dev.ftb.mods.ftblibrary.config.ConfigGroup;
 import dev.ftb.mods.ftbquests.quest.Quest;
 import dev.ftb.mods.ftbquests.quest.TeamData;
-import dev.ftb.mods.ftbquests.quest.task.ISingleLongValueTask;
 import dev.ftb.mods.ftbquests.quest.task.Task;
 import dev.ftb.mods.ftbquests.quest.task.TaskType;
 import dev.ftb.mods.ftblibrary.util.TooltipList;
@@ -18,11 +17,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
- * Quest task that requires spending a specified number of dPoints to complete.
+ * Quest task that requires spending a specified number of dPoints for a specific currency to complete.
  */
-public class PointTask extends Task implements ISingleLongValueTask {
+public class PointTask extends Task{
     public static TaskType TYPE;
     private long value = 0L;
+    private String currency = "dPoints";
 
     public PointTask(long id, Quest quest) {
         super(id, quest);
@@ -53,6 +53,7 @@ public class PointTask extends Task implements ISingleLongValueTask {
     public void writeData(CompoundTag nbt) {
         super.writeData(nbt);
         nbt.putLong("value", value);
+        nbt.putString("currency", currency);
     }
 
     @Override
@@ -63,18 +64,23 @@ public class PointTask extends Task implements ISingleLongValueTask {
         } else {
             value = 0L;
         }
+        if (nbt.contains("currency")) {
+            currency = nbt.getString("currency");
+        }
     }
 
     @Override
     public void writeNetData(FriendlyByteBuf buf) {
         super.writeNetData(buf);
         buf.writeVarLong(value);
+        buf.writeUtf(currency, 100);
     }
 
     @Override
     public void readNetData(FriendlyByteBuf buf) {
         super.readNetData(buf);
         value = buf.readVarLong();
+        currency = buf.readUtf(100);
     }
 
     @Override
@@ -83,28 +89,24 @@ public class PointTask extends Task implements ISingleLongValueTask {
     }
 
     @Override
-    public void setValue(long v) {
-        value = v;
-    }
-
-    @Override
     public void fillConfigGroup(ConfigGroup config) {
         super.fillConfigGroup(config);
         config.addLong("value", value, v -> value = v, 0L, 0L, Long.MAX_VALUE);
+        config.addString("currency", currency, v -> currency = v, "dPoints");
     }
 
     @Override
     public Component getAltTitle() {
-        return Component.literal(String.valueOf(value)).append(Component.translatable("dpoints.points"));
+        return Component.literal(String.valueOf(value)).append(" ").append(String.valueOf(currency));
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addMouseOverText(TooltipList list, TeamData teamData) {
         super.addMouseOverText(list, teamData);
-        // Display player's current cached point balance
-        String balance = String.valueOf(PointsApi.getPlayerPoints(null));
-        Component balanceText = Component.translatable("dpoints.balance")
+        // Display player's current cached point balance for this currency
+        String balance = String.valueOf(PointsApi.getPlayerPoints(null, currency));
+        Component balanceText = Component.translatable("dpoints.balance", currency)
                 .append(": ")
                 .append(Component.literal(balance).withStyle(ChatFormatting.GRAY));
         list.add(balanceText);
@@ -116,7 +118,7 @@ public class PointTask extends Task implements ISingleLongValueTask {
             return;
         }
 
-        long playerPoints = PointsApi.getPlayerPoints(player);
+        long playerPoints = PointsApi.getPlayerPoints(player, currency);
         long progress = teamData.getProgress(this);
         long needed = value - progress;
 
@@ -127,7 +129,7 @@ public class PointTask extends Task implements ISingleLongValueTask {
         if (playerPoints >= needed) {
             int amountToTake = (int) needed;
 
-            PointsApi.removePlayerPoints(player, amountToTake);
+            PointsApi.removePlayerPoints(player, currency, amountToTake);
             teamData.addProgress(this, amountToTake);
         }
     }
