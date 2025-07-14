@@ -4,12 +4,16 @@
   "info.dpoints.add.failure": "[dPoints] 失败！添加的数量必须是正数。",
   "info.dpoints.remove.failure": "[dPoints] 失败！玩家没有足够的积分以移除该数量。",
   "info.dpoints.set.failure": "[dPoints] 失败！积分不能被设置为负值。",
-  "ftbquests.task.dpoints.points": "积分任务",
-  "ftbquests.reward.dpoints.points": "积分奖励",
+
   "dpoints.balance": "%s 当前持有",
   "dpoints.points": " 积分",
   "dpoints.not_available": "不可用",
+
+  "ftbquests.task.dpoints.points": "积分任务",
+  "ftbquests.reward.dpoints.points": "积分奖励",
   "ftbquests.task.dpoints.points.value": "消耗积分",
   "ftbquests.task.dpoints.points.currency": "货币名称",
-  "ftbquests.reward.dpoints.points.value": "奖励积分"
+  "ftbquests.reward.dpoints.points.value": "奖励积分",
+
+  "item.dpoints.points": "积分"
 }

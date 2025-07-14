@@ -1,11 +1,9 @@
 package io.github.drag0n1zed.dpoints.manager;
 
-import io.github.drag0n1zed.dpoints.api.PointsApi;
 import io.github.drag0n1zed.dpoints.network.Networking;
 import io.github.drag0n1zed.dpoints.network.SyncPointsPacket;
 import io.github.drag0n1zed.dpoints.service.IPointManager;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.ApiStatus;

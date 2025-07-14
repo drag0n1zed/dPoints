@@ -2,6 +2,7 @@ package io.github.drag0n1zed.dpoints.internal;
 
 import io.github.drag0n1zed.dpoints.internal.commands.ModCommands;
 import io.github.drag0n1zed.dpoints.internal.compat.ftbquests.FTBQuestsIntegration;
+import io.github.drag0n1zed.dpoints.internal.items.ModItems;
 import io.github.drag0n1zed.dpoints.manager.ClientPointManager;
 import io.github.drag0n1zed.dpoints.manager.ServerPointManager;
 import io.github.drag0n1zed.dpoints.network.Networking;
@@ -35,6 +36,8 @@ public class Points {
     public Points(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::onClientSetup);
+
+        ModItems.ITEMS.register(modEventBus);
 
         FTBQuestsIntegration.init();
         Networking.registerMessages();
