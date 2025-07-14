@@ -1,20 +1,28 @@
 package io.github.drag0n1zed.dpoints.internal.compat.ftbquests;
 
 import dev.ftb.mods.ftblibrary.config.ConfigGroup;
+import dev.ftb.mods.ftblibrary.icon.Color4I;
+import dev.ftb.mods.ftblibrary.icon.CombinedIcon;
+import dev.ftb.mods.ftblibrary.icon.Icon;
 import dev.ftb.mods.ftbquests.quest.Quest;
 import dev.ftb.mods.ftbquests.quest.TeamData;
 import dev.ftb.mods.ftbquests.quest.task.Task;
 import dev.ftb.mods.ftbquests.quest.task.TaskType;
 import dev.ftb.mods.ftblibrary.util.TooltipList;
 import io.github.drag0n1zed.dpoints.api.PointsApi;
+import io.github.drag0n1zed.dpoints.internal.Points;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.List;
 
 /**
  * Quest task that requires spending a specified number of dPoints for a specific currency to complete.
@@ -132,5 +140,38 @@ public class PointTask extends Task{
             PointsApi.removePlayerPoints(player, currency, amountToTake);
             teamData.addProgress(this, amountToTake);
         }
+    }
+
+
+    private static final int QUEST_ICON_HUE_SALT = 350234;
+    private static final float GOLDEN_RATIO_CONJUGATE = 0.61803398875F;
+    private static final Icon BASE_POINTS_ICON = Icon.getIcon(
+            ResourceLocation.fromNamespaceAndPath(Points.MODID, "textures/item/points.png"));
+    private static final Icon OVERLAY_PLUS_ICON = Icon.getIcon(
+            ResourceLocation.fromNamespaceAndPath(Points.MODID, "textures/minus.png"));
+
+    @Override
+    public Icon getAltIcon() {
+        // For the default currency, just use the original icon registered with the type.
+        if ("dPoints".equalsIgnoreCase(this.currency)) {
+            return getType().getIconSupplier();
+        }
+
+        long seededHash = (long)this.currency.hashCode() + QUEST_ICON_HUE_SALT;
+        float hue = (Math.abs(seededHash) % 1000) / 1000f;
+        hue = (hue + GOLDEN_RATIO_CONJUGATE) % 1.0f;
+        float saturation = 0.85f;
+        float brightness = 0.95f;
+        int rgb = Mth.hsvToRgb(hue, saturation, brightness);
+        Color4I tint = Color4I.rgb(rgb);
+
+        // Create the layered icon using CombinedIcon
+        return CombinedIcon.getCombined(List.of(
+                // Bottom Layer: The points icon, tinted with our generated color.
+                BASE_POINTS_ICON.withColor(tint),
+
+                // Top Layer: The plus icon, drawn on top with no tint.
+                OVERLAY_PLUS_ICON
+        ));
     }
 }

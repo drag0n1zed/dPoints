@@ -13,10 +13,10 @@ import net.minecraftforge.fml.ModList;
  */
 public class FTBQuestsIntegration {
 
-        /**
-         * Initializes FTBQuests integration by registering point task and reward types with icons.
-         */
-        public static void init() {
+    /**
+     * Initializes FTBQuests integration by registering point task and reward types with icons.
+     */
+    public static void init() {
         if (ModList.get().isLoaded("ftbquests")) {
             PointTask.TYPE = TaskTypes.register(
                     ResourceLocation.parse(Points.MODID + ":points"),
