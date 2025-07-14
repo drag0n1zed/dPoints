@@ -14,6 +14,7 @@
   "ftbquests.task.dpoints.points.value": "消耗积分",
   "ftbquests.task.dpoints.points.currency": "货币名称",
   "ftbquests.reward.dpoints.points.value": "奖励积分",
+  "ftbquests.reward.dpoints.points.currency": "货币名称",
 
   "item.dpoints.points": "积分"
 }

@@ -14,6 +14,7 @@
   "ftbquests.task.dpoints.points.value": "Points Consumed",
   "ftbquests.task.dpoints.points.currency": "Currency Name",
   "ftbquests.reward.dpoints.points.value": "Points Rewarded",
+  "ftbquests.reward.dpoints.points.currency": "Currency Name",
 
   "item.dpoints.points": "Points"
 }
