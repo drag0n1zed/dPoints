@@ -89,7 +89,9 @@ public class Points {
      */
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        serverPointManager.onPlayerLeave(event.getEntity());
+        if (serverPointManager != null) {
+            serverPointManager.onPlayerLeave(event.getEntity());
+        }
     }
 
     /**
